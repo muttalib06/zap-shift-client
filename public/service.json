@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Same-Day Delivery",
+    "description": "Get your parcel delivered within the same day with our fast and reliable express delivery service."
+  },
+  {
+    "title": "Scheduled Delivery",
+    "description": "Choose a custom time slot for pickup and delivery to ensure convenience and flexibility."
+  },
+  {
+    "title": "Document Courier",
+    "description": "Secure and confidential transport of important documents with real-time tracking and verification."
+  },
+  {
+    "title": "Food & Grocery Delivery",
+    "description": "Deliver meals, groceries, and essential items safely and quickly from any store or restaurant."
+  },
+  {
+    "title": "Heavy Parcel Delivery",
+    "description": "We handle large and heavy packages with trained riders and proper safety equipment for risk-free delivery."
+  },
+  {
+    "title": "Return & Exchange Pickup",
+    "description": "E-commerce return packages or personal item exchanges are picked up and delivered effortlessly."
+  }
+]
