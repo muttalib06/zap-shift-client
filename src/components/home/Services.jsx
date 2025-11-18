@@ -10,9 +10,9 @@ const Services = () => {
       .then((data) => setServices(data));
   }, []);
   return (
-    <div className="bg-[#03373D] flex justify-center flex-col items-center p-6 rounded-xl">
+    <div className="bg-[#03373D] flex justify-center flex-col items-center p-6 rounded-xl mx-3 lg:mx-0">
       <div className="text-center space-y-3">
-        <h2 className="font-bold text-3xl text-tertiary">Our Services</h2>
+        <h2 className="font-bold text-3xl">Our Services</h2>
         <p className="text-[#DADADA]">
           Enjoy fast, reliable parcel delivery with real-time tracking and zero
           hassle. From personal packages to <br /> business shipments — we
