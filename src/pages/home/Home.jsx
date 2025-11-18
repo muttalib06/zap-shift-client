@@ -3,6 +3,8 @@ import Banner from "../../components/home/Banner";
 import Work from "../../components/home/Work";
 import Services from "../../components/home/Services";
 import SalesCompany from "../../components/home/SalesCompany";
+import WhyChooseUse from "../../components/home/WhyChooseUse";
+import Merchant from "../../components/home/Merchant";
 
 const Home = () => {
   const [works, setWorks] = useState([]);
@@ -36,6 +38,16 @@ const Home = () => {
         </h2>
         <SalesCompany></SalesCompany>
       </div>
+      <div className="border-b-2 my-5 max-w-4/5 mx-auto border-dotted "></div>
+      {/* why choose us */}
+      <div className="mt-8 mx-4 lg:mx-0">
+        <WhyChooseUse></WhyChooseUse>
+      </div>
+
+      <div className="border-b-2 my-5 max-w-4/5 mx-auto border-dotted "></div>
+
+      {/* merchant section */}
+      <Merchant></Merchant>
     </div>
   );
 };
