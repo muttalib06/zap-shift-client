@@ -2,10 +2,10 @@ import React from "react";
 
 const Testimonial = ({ testimonial }) => {
   return (
-    <div className="flex justify-center px-3 py-4 h-full">
-      <div className="max-w-md w-full h-full">
+    <div className="flex justify-center px-3 py-4 ">
+      <div className="max-w-md w-full ">
         {/* Testimonial Card */}
-        <div className="bg-white rounded-lg shadow-sm p-6 h-full flex flex-col justify-between">
+        <div className="bg-white rounded-lg shadow-sm p-6  flex flex-col justify-between">
           {/* Quote Icon */}
           <div className="mb-4">
             <svg
@@ -18,7 +18,7 @@ const Testimonial = ({ testimonial }) => {
           </div>
 
           {/* Testimonial Text */}
-          <p className="text-gray-700 text-base leading-relaxed mb-4 ">
+          <p className="text-gray-700 text-base leading-relaxed mb-4 h-35 ">
             {testimonial.testimonial}
           </p>
 

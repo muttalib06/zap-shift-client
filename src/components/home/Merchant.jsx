@@ -25,7 +25,7 @@ const Merchant = () => {
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="bg-lime-400 hover:bg-lime-500 text-gray-900 font-semibold px-8 py-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
+                <button className="bg-primary hover:bg-primary text-gray-900 font-semibold px-8 py-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
                   Become a Merchant
                 </button>
 

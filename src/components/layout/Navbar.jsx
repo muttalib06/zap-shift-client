@@ -47,14 +47,16 @@ const Navbar = () => {
                 <NavLink>Be a Rider</NavLink>
               </li>
               <li>
-                <button className="btn">Sign In</button>
+                <button to="/login" className="btn">
+                  <NavLink to="/login">Sign In</NavLink>
+                </button>
               </li>
             </ul>
           </div>
-          <a className="flex items-end font-extrabold text-3xl">
+          <div className="flex items-end font-extrabold text-3xl">
             <img src={logo} alt="" />
-            ZapShift
-          </a>
+            <p> ZapShift</p>
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -76,7 +78,9 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end space-x-3">
-          <button className="btn hidden lg:block">Sign In</button>
+          <button className="btn hidden lg:block">
+            <NavLink to="/login">Sign In</NavLink>
+          </button>
           <div className="flex">
             <button className="btn bg-primary">Be a Rider</button>
             <div className="bg-black p-3 rounded-full">

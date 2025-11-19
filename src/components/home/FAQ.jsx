@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
+import Button from "../common/Button";
 
 const FAQ = () => {
   const [faqs, setFaqs] = useState([]);
@@ -58,6 +59,10 @@ const FAQ = () => {
           </div>
         ))}
       </div>
+     <div className="flex justify-center items-center">
+           <Button></Button>
+
+     </div>
     </div>
   );
 };
