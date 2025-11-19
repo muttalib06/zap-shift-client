@@ -5,14 +5,58 @@ import Services from "../../components/home/Services";
 import SalesCompany from "../../components/home/SalesCompany";
 import WhyChooseUse from "../../components/home/WhyChooseUse";
 import Merchant from "../../components/home/Merchant";
+import Testimonial from "../../components/home/Testimonial";
+import Slider from "react-slick";
+import FAQ from "../../components/home/FAQ";
 
 const Home = () => {
   const [works, setWorks] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
-    fetch("/work.json")
-      .then((res) => res.json())
-      .then((data) => setWorks(data));
+    const loadData = async () => {
+      try {
+        const workRes = await fetch("/work.json");
+        const testimonialRes = await fetch("/testimonial.json");
+        const workData = await workRes.json();
+        const testimonialData = await testimonialRes.json();
+        setWorks(workData);
+        setTestimonials(testimonialData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    loadData();
   }, []);
   return (
     <div>
@@ -48,6 +92,35 @@ const Home = () => {
 
       {/* merchant section */}
       <Merchant></Merchant>
+
+      {/* testimonial */}
+
+      <div>
+        <div className="space-y-2">
+          <h2 className="font-bold text-3xl text-tertiary text-center">
+            What our customers are sayings
+          </h2>
+          <p className="text-tertiary text-center">
+            Enhance posture, mobility, and well-being effortlessly with Posture
+            Pro. Achieve proper alignment, reduce pain, <br /> and strengthen
+            your body with ease!
+          </p>
+        </div>
+        <div className="mt-3 max-w-4/5 mx-auto">
+          <Slider {...settings}>
+            {testimonials.map((testimonial) => (
+              <Testimonial
+                key={testimonial.id}
+                testimonial={testimonial}
+              ></Testimonial>
+            ))}
+          </Slider>
+        </div>
+      </div>
+
+      {/* FAQ */}
+
+      <FAQ></FAQ>
     </div>
   );
 };

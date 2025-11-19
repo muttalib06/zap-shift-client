@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Awlad Hossain",
+    "title": "Senior Product Designer",
+    "testimonial": "A posture corrector works by providing support and gentle alignment to your shoulders, back, and spine, encouraging you to maintain proper posture throughout the day.",
+    "avatar": "https://i.pravatar.cc/150?img=1"
+  },
+  {
+    "id": 2,
+    "name": "Sarah Mitchell",
+    "title": "Physical Therapist",
+    "testimonial": "Using a posture corrector has helped my patients reduce back pain significantly. The gentle reminders to sit up straight make a real difference in daily comfort and long-term health.",
+    "avatar": "https://i.pravatar.cc/150?img=5"
+  },
+  {
+    "id": 3,
+    "name": "James Chen",
+    "title": "Software Engineer",
+    "testimonial": "As someone who sits at a desk all day, this posture corrector has been a game-changer. I notice less shoulder tension and improved focus during work hours.",
+    "avatar": "https://i.pravatar.cc/150?img=12"
+  },
+  {
+    "id": 4,
+    "name": "Emily Rodriguez",
+    "title": "Yoga Instructor",
+    "testimonial": "I recommend posture correctors to my students who struggle with alignment. It's an excellent tool for building body awareness and developing healthy postural habits.",
+    "avatar": "https://i.pravatar.cc/150?img=9"
+  },
+  {
+    "id": 5,
+    "name": "Michael Thompson",
+    "title": "Chiropractor",
+    "testimonial": "The ergonomic design provides the right amount of support without being restrictive. My patients report feeling more comfortable and aligned after just a few weeks of use.",
+    "avatar": "https://i.pravatar.cc/150?img=13"
+  },
+  {
+    "id": 6,
+    "name": "Lisa Anderson",
+    "title": "Office Manager",
+    "testimonial": "After years of hunching over my computer, I finally found relief. The posture corrector gently pulls my shoulders back and reminds me to maintain good form throughout the workday.",
+    "avatar": "https://i.pravatar.cc/150?img=20"
+  },
+  {
+    "id": 7,
+    "name": "David Park",
+    "title": "Personal Trainer",
+    "testimonial": "I've seen remarkable improvements in my clients' posture and overall strength. This corrector works as an excellent supplement to regular exercise and stretching routines.",
+    "avatar": "https://i.pravatar.cc/150?img=15"
+  },
+  {
+    "id": 8,
+    "name": "Amanda Foster",
+    "title": "Graphic Designer",
+    "testimonial": "Comfortable, adjustable, and effective. The posture corrector has helped me reduce neck pain and improve my spinal alignment. I wear it daily and couldn't be happier with the results.",
+    "avatar": "https://i.pravatar.cc/150?img=25"
+  }
+]

@@ -3,7 +3,7 @@ import locationImg from "../../assets/location-merchant.png"
 import merchant from "../../assets/be-a-merchant-bg.png"
 const Merchant = () => {
   return (
-    <div className="min-h-screen bg-gray-100 py-16 px-6">
+    <div className="min-h-screen py-16 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="relative bg-gradient-to-br from-teal-900 via-teal-800 to-cyan-700 rounded-3xl shadow-2xl overflow-hidden">
           {/* Decorative Wave Pattern */}
