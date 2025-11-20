@@ -66,9 +66,9 @@ const Navbar = () => {
                     Logout
                   </button>
                 ) : (
-                  <button to="/login" className="btn">
-                    <NavLink to="/login">Sign In</NavLink>
-                  </button>
+                  <NavLink to="/login" className="btn">
+                   Sign In
+                  </NavLink>
                 )}
               </li>
             </ul>
@@ -103,12 +103,12 @@ const Navbar = () => {
               Logout
             </button>
           ) : (
-            <button to="/login" className="btn">
-              <NavLink to="/login">Sign In</NavLink>
-            </button>
+            <NavLink to="/login" className=" px-2 py-2 btn rounded border hidden lg:block">
+              Sign In
+            </NavLink>
           )}
           <div className="flex">
-            <button className="btn bg-primary">Be a Rider</button>
+            <NavLink to="/rider" className="btn bg-primary">Be a Rider</NavLink>
             <div className="bg-black p-3 rounded-full">
               <FiExternalLink className="text-primary"></FiExternalLink>
             </div>

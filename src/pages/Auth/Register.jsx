@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthProvider";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import Spinner from "../../components/common/Spinner";
 import authImg from "../../assets/authImage.png";
+import axios from "axios";
 
 const Register = () => {
-  const { createUser, signInGoogle } = useAuth();
+  const { createUser, signInGoogle, updateUserProfile } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const location = useLocation();
+  console.log(location)
+  const from = location.state?.from?.pathname || "/";
 
   const navigate = useNavigate();
   const {
@@ -18,11 +22,41 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const formSubmit = (data) => {
+    // get image file;
+    const profileImage = data.image[0];
     setError("");
     setLoading(true);
     createUser(data.email, data.password)
       .then(() => {
-        navigate("/");
+        const formData = new FormData();
+        formData.append("image", profileImage);
+
+        // send the to imageBB and get the url;
+        const key = import.meta.env.VITE_IMAGEBB_API_KEY;
+        const uploadImgURL = `https://api.imgbb.com/1/upload?key=${key}`;
+        axios.post(uploadImgURL, formData).then((response) => {
+          const imageUrl = response.data.data.url;
+          const name = data.name;
+          updateUserProfile(name, imageUrl)
+            .then(() => {})
+            .catch((error) => {
+              if (error.code === "auth/network-request-failed") {
+                setError(
+                  "Network error! Please check your internet connection."
+                );
+              } else if (error.code === "auth/user-token-expired") {
+                setError("Session expired. Please sign in again.");
+              } else if (error.code === "auth/invalid-user-token") {
+                setError(
+                  "Your session is invalid. Try logging out and signing in again."
+                );
+              } else {
+                setError("Profile update failed! Please try again later.");
+              }
+            });
+        });
+
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         let message = "";
@@ -52,7 +86,7 @@ const Register = () => {
     setError("");
     signInGoogle()
       .then(() => {
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         let message;
@@ -93,6 +127,7 @@ const Register = () => {
 
         <form onSubmit={handleSubmit(formSubmit)} className="mt-4">
           <fieldset className="fieldset">
+            {/* name */}
             <label className="label">Name</label>
             <input
               type="text"
@@ -103,6 +138,17 @@ const Register = () => {
             {errors.name && (
               <p className="text-red-500">{errors.name.message}</p>
             )}
+            {/* photo */}
+            <label className="label">Photo</label>
+            <input
+              type="file"
+              {...register("image", { required: "Image is required" })}
+              className="file-input"
+            />
+            {errors.image && (
+              <p className="text-red-500">{errors.image.message}</p>
+            )}
+            {/* email */}
             <label className="label">Email</label>
             <input
               type="email"
@@ -150,7 +196,7 @@ const Register = () => {
         </form>
         <p className="mt-4">
           Already have an account?
-          <NavLink className="text-blue-500 mx-2" to="/login">
+          <NavLink state={location.state} className="text-blue-500 mx-2" to="/login">
             Login
           </NavLink>
         </p>

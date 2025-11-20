@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { NavLink, useNavigate } from "react-router";
+import { NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthProvider";
 import authImg from "../../assets/authImage.png";
 import useAuth from "../../hooks/useAuth";
 import Spinner from "../../components/common/Spinner";
 
 const Login = () => {
-  const { signIn, signInGoogle, user } = useAuth();
+  const { signIn, signInGoogle} = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  console.log(user);
+  const location = useLocation();
+  console.log(location)
+  const from = location.state?.from?.pathname || "/";
 
   const {
     register,
@@ -24,7 +25,7 @@ const Login = () => {
     setError("");
     signIn(data.email, data.password)
       .then(() => {
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         let message;
@@ -52,7 +53,7 @@ const Login = () => {
     setError("");
     signInGoogle()
       .then(() => {
-        navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         let message;
@@ -124,7 +125,11 @@ const Login = () => {
         </form>
         <p className="mt-4">
           Don't have any account?
-          <NavLink className="text-blue-500 mx-2" to="/register">
+          <NavLink
+            state={location.state}
+            className="text-blue-500 mx-2"
+            to="/register"
+          >
             Register
           </NavLink>
         </p>
