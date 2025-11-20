@@ -7,9 +7,9 @@ import Spinner from "../../components/common/Spinner";
 import authImg from "../../assets/authImage.png";
 
 const Register = () => {
-  const { createUser, setUser } = useAuth();
+  const { createUser, signInGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [error,setError] = useState("")
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
   const {
@@ -18,12 +18,10 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const formSubmit = (data) => {
-    setError("")
+    setError("");
     setLoading(true);
     createUser(data.email, data.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setUser(user);
+      .then(() => {
         navigate("/");
       })
       .catch((error) => {
@@ -42,7 +40,40 @@ const Register = () => {
         } else {
           message = "Something went wrong. Please try again.";
         }
-        setError(message)
+        setError(message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleSignUpGoogle = () => {
+    setLoading(true);
+    setError("");
+    signInGoogle()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        let message;
+
+        if (error.code === "auth/popup-closed-by-user") {
+          message = "Google sign-in was cancelled. Please try again.";
+        } else if (error.code === "auth/network-request-failed") {
+          message = "Network error. Please check your connection.";
+        } else if (
+          error.code === "auth/account-exists-with-different-credential"
+        ) {
+          message =
+            "An account already exists with the same email using a different sign-in method.";
+        } else if (error.code === "auth/cancelled-popup-request") {
+          message = "Another sign-in attempt was cancelled.";
+        } else {
+          message =
+            "Something went wrong during Google sign-in. Please try again later.";
+        }
+
+        setError(message);
       })
       .finally(() => {
         setLoading(false);
@@ -53,7 +84,7 @@ const Register = () => {
   }
 
   return (
-    <div className="flex items-center">
+    <div className="flex items-center flex-col md:flex-row">
       <div className="flex-1">
         <div>
           <h2 className="font-extrabold text-4xl">Create an Account</h2>
@@ -130,7 +161,10 @@ const Register = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        <button className="btn bg-gray-300 text-black border-[#e5e5e5] input">
+        <button
+          onClick={handleSignUpGoogle}
+          className="btn bg-gray-300 text-black border-[#e5e5e5] input"
+        >
           <svg
             aria-label="Google logo"
             width="16"

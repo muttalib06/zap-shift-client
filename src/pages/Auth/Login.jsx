@@ -1,27 +1,97 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../../context/AuthProvider";
 import authImg from "../../assets/authImage.png";
+import useAuth from "../../hooks/useAuth";
+import Spinner from "../../components/common/Spinner";
 
 const Login = () => {
+  const { signIn, signInGoogle, user } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  console.log(user);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log("after submit", data);
+  const handleLogin = (data) => {
+    setLoading(true);
+    setError("");
+    signIn(data.email, data.password)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        let message;
+        if (error.code === "auth/user-not-found") {
+          message = "No account found with this email. Please sign up first.";
+        } else if (error.code === "auth/wrong-password") {
+          message = "Incorrect password. Please try again.";
+        } else if (error.code === "auth/invalid-email") {
+          message =
+            "The email address is not valid. Please check and try again.";
+        } else if (error.code === "auth/user-disabled") {
+          message = "This account has been disabled. Please contact support.";
+        } else {
+          message = "Something went wrong. Please try again.";
+        }
+        setError(message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  const handleSignInGoogle = () => {
+    setLoading(true);
+    setError("");
+    signInGoogle()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        let message;
+
+        if (error.code === "auth/popup-closed-by-user") {
+          message = "Google sign-in was cancelled. Please try again.";
+        } else if (error.code === "auth/network-request-failed") {
+          message = "Network error. Please check your connection.";
+        } else if (
+          error.code === "auth/account-exists-with-different-credential"
+        ) {
+          message =
+            "An account already exists with the same email using a different sign-in method.";
+        } else if (error.code === "auth/cancelled-popup-request") {
+          message = "Another sign-in attempt was cancelled.";
+        } else {
+          message =
+            "Something went wrong during Google sign-in. Please try again later.";
+        }
+
+        setError(message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  if (loading) {
+    return <Spinner></Spinner>;
+  }
   return (
-    <div className="flex items-center">
+    <div className="flex items-center flex-col md:flex-row">
       <div className="flex-1">
         <div>
           <h2 className="font-extrabold text-4xl">Welcome Back!</h2>
           <p>Login with ZapShift</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+        <form onSubmit={handleSubmit(handleLogin)} className="mt-4">
           <fieldset className="fieldset">
             <label className="label">Email</label>
             <input
@@ -48,6 +118,7 @@ const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
+            <p className="my-2 text-red-500">{error}</p>
             <button className="input btn bg-primary mt-4">Login</button>
           </fieldset>
         </form>
@@ -64,7 +135,10 @@ const Login = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        <button className="btn bg-gray-300 text-black border-[#e5e5e5] input">
+        <button
+          onClick={handleSignInGoogle}
+          className="btn bg-gray-300 text-black border-[#e5e5e5] input"
+        >
           <svg
             aria-label="Google logo"
             width="16"

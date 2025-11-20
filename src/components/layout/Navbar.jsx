@@ -3,8 +3,22 @@ import logo from "../../assets/logo.png";
 import { NavLink } from "react-router";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
+import useAuth from "../../hooks/useAuth";
+import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logOut } = useAuth();
+
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logout successful");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
   return (
     <div className="bg-base-100 shadow-sm ">
       <div className="md:max-w-4/5 mx-auto navbar">
@@ -47,9 +61,15 @@ const Navbar = () => {
                 <NavLink>Be a Rider</NavLink>
               </li>
               <li>
-                <button to="/login" className="btn">
-                  <NavLink to="/login">Sign In</NavLink>
-                </button>
+                {user ? (
+                  <button onClick={handleLogOut} to="/login" className="btn">
+                    Logout
+                  </button>
+                ) : (
+                  <button to="/login" className="btn">
+                    <NavLink to="/login">Sign In</NavLink>
+                  </button>
+                )}
               </li>
             </ul>
           </div>
@@ -78,9 +98,15 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end space-x-3">
-          <button className="btn hidden lg:block">
-            <NavLink to="/login">Sign In</NavLink>
-          </button>
+          {user ? (
+            <button onClick={handleLogOut} to="/login" className="btn hidden lg:block">
+              Logout
+            </button>
+          ) : (
+            <button to="/login" className="btn">
+              <NavLink to="/login">Sign In</NavLink>
+            </button>
+          )}
           <div className="flex">
             <button className="btn bg-primary">Be a Rider</button>
             <div className="bg-black p-3 rounded-full">
@@ -89,6 +115,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };
