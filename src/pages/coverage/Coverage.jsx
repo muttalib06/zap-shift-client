@@ -9,6 +9,7 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
+import axios from "axios";
 import "leaflet/dist/leaflet.css";
 import { BiSearch, BiCurrentLocation, BiMap } from "react-icons/bi";
 import { MdDeliveryDining, MdLocationOn } from "react-icons/md";
@@ -89,10 +90,9 @@ const Coverage = () => {
   const reverseGeocode = async (lat, lon) => {
     try {
       const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data) {
-        setSelectedAddress(data.display_name);
+      const res = await axios.get(url);
+      if (res.data) {
+        setSelectedAddress(res.data.display_name);
         checkDeliveryAvailability(lat, lon);
       }
     } catch (error) {
@@ -131,11 +131,10 @@ const Coverage = () => {
     setIsSearching(true);
     try {
       const url = `https://nominatim.openstreetmap.org/search?q=${searchQuery},Bangladesh&format=json&limit=1`;
-      const res = await fetch(url);
-      const data = await res.json();
+      const res = await axios.get(url);
       
-      if (data.length > 0) {
-        const { lat, lon, display_name } = data[0];
+      if (res.data.length > 0) {
+        const { lat, lon, display_name } = res.data[0];
         const newPos = [parseFloat(lat), parseFloat(lon)];
         setMapCenter(newPos);
         setMarkerPosition(newPos);
@@ -176,8 +175,8 @@ const Coverage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-200 p-3 sm:p-5">
-      <div className="lg:max-w-4/5 mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 p-3 sm:p-5">
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0a4d3c] mb-2">
@@ -189,8 +188,8 @@ const Coverage = () => {
         </div>
 
         {/* Search Section */}
-        <div className="flex flex-col sm:flex-row space-y-2 md:space-y-0  mb-6">
-          <div className="flex items-center bg-gray-100 px-4 py-2 rounded-full sm:rounded-r-none">
+        <div className="flex flex-col sm:flex-row gap-2 mb-6">
+          <div className="flex items-center bg-gray-100 px-4 py-3 rounded-full sm:rounded-r-none flex-1">
             <BiSearch className="w-5 h-5 text-gray-500 mr-3 flex-shrink-0" />
             <input
               type="text"
@@ -198,18 +197,24 @@ const Coverage = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Search district, area or landmark..."
-              className="bg-transparent border-none outline-none text-gray-800 placeholder-gray-400"
+              className="w-full bg-transparent border-none outline-none text-gray-800 placeholder-gray-400"
             />
           </div>
-          <div>
+          <div className="flex gap-2">
             <button
               onClick={handleSearch}
               disabled={isSearching}
-              className="bg-[#a8d05f] text-[#0a4d3c]  w-full rounded-full sm:rounded-l-none px-6 py-2 font-semibold hover:bg-[#96bc4f] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed sm:flex-none"
+              className="bg-[#a8d05f] text-[#0a4d3c] rounded-full sm:rounded-l-none px-6 py-3 font-semibold hover:bg-[#96bc4f] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-none"
             >
               {isSearching ? "Searching..." : "Search"}
             </button>
-           
+            <button
+              onClick={handleGetCurrentLocation}
+              className="bg-[#0a4d3c] text-white rounded-full px-4 py-3 hover:bg-[#083d2f] transition-all duration-300 hover:shadow-lg"
+              title="Use my current location"
+            >
+              <BiCurrentLocation className="w-5 h-5" />
+            </button>
           </div>
         </div>
 

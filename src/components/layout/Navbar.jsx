@@ -90,7 +90,7 @@ const Navbar = () => {
               <NavLink to="/about">About Us</NavLink>
             </li>
             <li>
-              <NavLink>Pricing</NavLink>
+              <NavLink to="/sendParcel">Send Parcel</NavLink>
             </li>
             <li>
               <NavLink>Be a Rider</NavLink>
