@@ -7,6 +7,7 @@ import Login from "../pages/Auth/Login";
 import Rider from "../pages/rider/Rider";
 import PrivateRoute from "./PrivateRoute";
 import Coverage from "../pages/coverage/Coverage";
+import About from "../pages/about/About";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path:"about",
+        element:<About></About>
+      }
     ],
   },
 

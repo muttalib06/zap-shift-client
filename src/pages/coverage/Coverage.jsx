@@ -177,7 +177,7 @@ const Coverage = () => {
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-200 p-3 sm:p-5">
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
+      <div className="lg:max-w-4/5 mx-auto bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-10">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0a4d3c] mb-2">

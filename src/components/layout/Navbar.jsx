@@ -81,13 +81,13 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <NavLink>Services</NavLink>
+              <NavLink to="/">Services</NavLink>
             </li>
             <li>
               <NavLink to="/coverage">Coverage</NavLink>
             </li>
             <li>
-              <NavLink>About Us</NavLink>
+              <NavLink to="/about">About Us</NavLink>
             </li>
             <li>
               <NavLink>Pricing</NavLink>
