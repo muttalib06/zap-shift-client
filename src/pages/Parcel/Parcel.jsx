@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
 
 const Parcel = () => {
+  const { user } = useAuth();
   const [serviceCenters, setServiceCenters] = useState([]);
   const [serviceCenterData, setServiceCenterData] = useState([]);
+  const secureAxios = useAxiosSecure();
 
   const { register, handleSubmit, control } = useForm();
 
@@ -11,7 +17,44 @@ const Parcel = () => {
   const receiverRegion = useWatch({ control, name: "receiverRegion" });
 
   const handleSendParcel = (data) => {
-    console.log("after send parcel", data);
+    const sameDistrict = data.senderDistrict === data.receiverDistrict;
+    const isDocument = data.parcelType === "document";
+
+    let cost = 0;
+    if (isDocument) {
+      cost = sameDistrict ? 60 : 80;
+    } else {
+      if (data.parcelWeight <= 3) {
+        cost = sameDistrict ? 110 : 150;
+      } else {
+        const minCharge = sameDistrict ? 110 : 150;
+        const extraWeight = data.parcelWeight - 3;
+        const extraCharge = sameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+        cost = minCharge + extraCharge;
+      }
+    }
+    data.cost = cost;
+    data.createdAt = new Date();
+    Swal.fire({
+      title: "Are your agree?",
+      text: `Your total charge is ${cost} taka`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Agree",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        secureAxios.post("/parcels", data).then((res) => console.log(res.data));
+        Swal.fire({
+          title: "Booked",
+          text: "Your parcel has been booked",
+          icon: "success",
+        });
+      }
+    });
   };
   useEffect(() => {
     fetch("/warehouses.json")
@@ -116,7 +159,20 @@ const Parcel = () => {
                   <input
                     type="text"
                     placeholder="Sender Name"
+                    defaultValue={user.displayName}
                     {...register("senderName")}
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2 text-sm sm:text-base">
+                    Sender Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Sender Email"
+                    defaultValue={user.email}
+                    {...register("senderEmail")}
                     className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                 </div>
@@ -171,9 +227,11 @@ const Parcel = () => {
                   >
                     <option>Select your District</option>
 
-                    {
-                      districtByRegion(senderRegion).map((d,index) => <option key={index}>{d}</option>)
-                    }
+                    {districtByRegion(senderRegion).map((d, index) => (
+                      <option key={index} value={d}>
+                        {d}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -262,7 +320,9 @@ const Parcel = () => {
                     <option>Receiver District</option>
 
                     {districtByRegion(receiverRegion).map((d, index) => (
-                      <option key={index}>{d}</option>
+                      <option key={index} value={d}>
+                        {d}
+                      </option>
                     ))}
                   </select>
                 </div>

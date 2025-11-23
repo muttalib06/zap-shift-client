@@ -58,7 +58,7 @@ const Navbar = () => {
                 <NavLink>Pricing</NavLink>
               </li>
               <li>
-                <NavLink>Be a Rider</NavLink>
+                <NavLink to="/dashboard">Dashboard</NavLink>
               </li>
               <li>
                 {user ? (
@@ -93,7 +93,7 @@ const Navbar = () => {
               <NavLink to="/sendParcel">Send Parcel</NavLink>
             </li>
             <li>
-              <NavLink>Be a Rider</NavLink>
+              <NavLink to="/dashboard">Dashboard</NavLink>
             </li>
           </ul>
         </div>
