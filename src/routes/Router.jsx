@@ -11,6 +11,7 @@ import About from "../pages/about/About";
 import Parcel from "../pages/Parcel/Parcel";
 import Dashboard from "../layouts/Dashboard";
 import MyParcels from "../pages/dashboard/MyParcels";
+import SuccessPage from "../pages/Payment/SuccessPage";
 
 export const router = createBrowserRouter([
   {
@@ -71,7 +72,12 @@ export const router = createBrowserRouter([
       {
         path:"my-parcels",
         element:<MyParcels></MyParcels>
+      },
+      {
+        path:"success",
+        element:<SuccessPage></SuccessPage>
       }
+    
     ]
   }
 ]);
