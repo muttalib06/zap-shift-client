@@ -12,6 +12,7 @@ import Parcel from "../pages/Parcel/Parcel";
 import Dashboard from "../layouts/Dashboard";
 import MyParcels from "../pages/dashboard/MyParcels";
 import SuccessPage from "../pages/Payment/SuccessPage";
+import PaymentHistory from "../pages/dashboard/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path:"success",
         element:<SuccessPage></SuccessPage>
+      },
+      {
+        path:"payment-history",
+        element:<PaymentHistory></PaymentHistory>
       }
     
     ]

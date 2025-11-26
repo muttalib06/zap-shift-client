@@ -3,7 +3,7 @@ import Logo from "../components/common/Logo";
 import { BiPackage } from "react-icons/bi";
 import { NavLink, Outlet } from "react-router";
 import useAuth from "../hooks/useAuth";
-import { FaUser } from "react-icons/fa";
+import { FaHistory, FaUser } from "react-icons/fa";
 
 const Dashboard = () => {
   return (
@@ -94,6 +94,18 @@ const Dashboard = () => {
                 <BiPackage></BiPackage>
 
                 <span className="is-drawer-close:hidden">My Parcels</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/dashboard/payment-history"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Settings"
+              >
+                {/* my parcel */}
+                <FaHistory />
+
+                <span className="is-drawer-close:hidden">Payment History</span>
               </NavLink>
             </li>
             <li>
