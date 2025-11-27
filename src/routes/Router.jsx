@@ -14,6 +14,8 @@ import MyParcels from "../pages/dashboard/MyParcels";
 import SuccessPage from "../pages/Payment/SuccessPage";
 import PaymentHistory from "../pages/dashboard/PaymentHistory";
 import RiderApproval from "../pages/dashboard/RiderApproval";
+import Profile from "../pages/dashboard/Profile";
+import Users from "../pages/dashboard/Users";
 
 export const router = createBrowserRouter([
   {
@@ -81,7 +83,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index:true,
-        element:<MyParcels></MyParcels>
+        element:<Profile></Profile>
       },
       {
         path: "/dashboard/my-parcels",
@@ -98,6 +100,14 @@ export const router = createBrowserRouter([
       {
         path:"riderApproval",
         element:<RiderApproval></RiderApproval>
+      },
+      {
+        path:"profile",
+        element:<Profile></Profile>
+      },
+      {
+        path:"users",
+        element:<Users></Users>
       }
     ],
   },
