@@ -46,7 +46,7 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <NavLink>Services</NavLink>
+                <NavLink>Home</NavLink>
               </li>
               <li>
                 <NavLink>Coverage</NavLink>
@@ -81,7 +81,7 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <NavLink to="/">Services</NavLink>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li>
               <NavLink to="/coverage">Coverage</NavLink>

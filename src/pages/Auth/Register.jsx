@@ -6,13 +6,14 @@ import useAuth from "../../hooks/useAuth";
 import Spinner from "../../components/common/Spinner";
 import authImg from "../../assets/authImage.png";
 import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Register = () => {
   const { createUser, signInGoogle, updateUserProfile } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const location = useLocation();
-  console.log(location)
+  const axiosSecure = useAxiosSecure();
   const from = location.state?.from?.pathname || "/";
 
   const navigate = useNavigate();
@@ -37,6 +38,19 @@ const Register = () => {
         axios.post(uploadImgURL, formData).then((response) => {
           const imageUrl = response.data.data.url;
           const name = data.name;
+
+          //save user to the mongodb;
+
+          const userInfo = {
+            email: data.email,
+            displayName: data.name,
+            photoURL: imageUrl,
+          };
+
+          axiosSecure.post("/users", userInfo).then((res) => {
+            console.log(res.data.insertedId);
+          });
+
           updateUserProfile(name, imageUrl)
             .then(() => {})
             .catch((error) => {
@@ -85,8 +99,19 @@ const Register = () => {
     setLoading(true);
     setError("");
     signInGoogle()
-      .then(() => {
-        navigate(from, { replace: true });
+      .then((result) => {
+        // save the user to the database;
+
+        const userInfo = {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        };
+
+        axiosSecure.post("/users", userInfo).then((res) => {
+          console.log("save the user to the database", res.data.insertedId);
+          navigate(from, { replace: true });
+        });
       })
       .catch((error) => {
         let message;
@@ -196,7 +221,11 @@ const Register = () => {
         </form>
         <p className="mt-4">
           Already have an account?
-          <NavLink state={location.state} className="text-blue-500 mx-2" to="/login">
+          <NavLink
+            state={location.state}
+            className="text-blue-500 mx-2"
+            to="/login"
+          >
             Login
           </NavLink>
         </p>

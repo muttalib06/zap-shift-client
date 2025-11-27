@@ -13,6 +13,7 @@ import Dashboard from "../layouts/Dashboard";
 import MyParcels from "../pages/dashboard/MyParcels";
 import SuccessPage from "../pages/Payment/SuccessPage";
 import PaymentHistory from "../pages/dashboard/PaymentHistory";
+import RiderApproval from "../pages/dashboard/RiderApproval";
 
 export const router = createBrowserRouter([
   {
@@ -41,12 +42,16 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path:"about",
-        element:<About></About>
+        path: "about",
+        element: <About></About>,
       },
       {
-        path:"sendParcel",
-        element:<Parcel></Parcel>
+        path: "sendParcel",
+        element: <Parcel></Parcel>,
+      },
+      {
+        path:"/rider",
+        element:Rider
       }
     ],
   },
@@ -67,22 +72,33 @@ export const router = createBrowserRouter([
   },
 
   {
-    path:"dashboard",
-    element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
-    children:[
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard></Dashboard>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"my-parcels",
+        index:true,
         element:<MyParcels></MyParcels>
       },
       {
-        path:"success",
-        element:<SuccessPage></SuccessPage>
+        path: "/dashboard/my-parcels",
+        element: <MyParcels></MyParcels>,
       },
       {
-        path:"payment-history",
-        element:<PaymentHistory></PaymentHistory>
+        path: "success",
+        element: <SuccessPage></SuccessPage>,
+      },
+      {
+        path: "payment-history",
+        element: <PaymentHistory></PaymentHistory>,
+      },
+      {
+        path:"riderApproval",
+        element:<RiderApproval></RiderApproval>
       }
-    
-    ]
-  }
+    ],
+  },
 ]);

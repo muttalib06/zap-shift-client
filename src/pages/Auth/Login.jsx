@@ -5,14 +5,15 @@ import { AuthContext } from "../../context/AuthProvider";
 import authImg from "../../assets/authImage.png";
 import useAuth from "../../hooks/useAuth";
 import Spinner from "../../components/common/Spinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Login = () => {
-  const { signIn, signInGoogle} = useAuth();
+  const { signIn, signInGoogle } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location)
+ const axiosSecure = useAxiosSecure()
   const from = location.state?.from?.pathname || "/";
 
   const {
@@ -52,8 +53,17 @@ const Login = () => {
     setLoading(true);
     setError("");
     signInGoogle()
-      .then(() => {
-        navigate(from, { replace: true });
+      .then((result) => {
+        const userInfo = {
+          email: result.user.email,
+          displayName: result.user.displayName,
+          photoURL: result.user.photoURL,
+        };
+
+        axiosSecure.post("/users", userInfo).then((res) => {
+          console.log("save the user to the database", res.data);
+          navigate(from, { replace: true });
+        });
       })
       .catch((error) => {
         let message;

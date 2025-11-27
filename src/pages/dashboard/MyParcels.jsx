@@ -11,7 +11,6 @@ import { NavLink } from "react-router";
 
 const MyParcels = () => {
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
   const secureAxios = useAxiosSecure();
 
   const {
@@ -82,14 +81,11 @@ const MyParcels = () => {
   if (isLoading) {
     return <Spinner></Spinner>;
   }
-  if (loading) {
-    return <Spinner></Spinner>;
-  }
   if (error) {
     return <Error></Error>;
   }
   return (
-    <div className="max-w-4/5 mx-auto">
+    <div className="max-w-4/5 mx-auto mt-8">
       <h1 className="font-bold text-xl">My parcels {parcels.length}</h1>
 
       <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 mt-5">

@@ -3,7 +3,7 @@ import { useForm, useWatch } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../hooks/useAuth";
-import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 const Parcel = () => {
   const { user } = useAuth();
@@ -15,6 +15,8 @@ const Parcel = () => {
 
   const senderRegion = useWatch({ control, name: "senderRegion" });
   const receiverRegion = useWatch({ control, name: "receiverRegion" });
+
+  const navigate = useNavigate();
 
   const handleSendParcel = (data) => {
     const sameDistrict = data.senderDistrict === data.receiverDistrict;
@@ -48,6 +50,7 @@ const Parcel = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         secureAxios.post("/parcels", data).then((res) => console.log(res.data));
+        navigate("/dashboard/my-parcels")
         Swal.fire({
           title: "Booked",
           text: "Your parcel has been booked",
@@ -212,7 +215,7 @@ const Parcel = () => {
                   >
                     <option>Select your region</option>
                     {serviceCenters.map((r, index) => (
-                      <option key={index}>{r}</option>
+                      <option key={index} value={r}>{r}</option>
                     ))}
                   </select>
                 </div>
