@@ -4,8 +4,10 @@ import { BiPackage } from "react-icons/bi";
 import { NavLink, Outlet } from "react-router";
 import { FaBiking, FaHistory, FaUser, FaUsers } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import useRole from "../hooks/useRole";
 
 const Dashboard = () => {
+  const {role} = useRole();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -39,7 +41,9 @@ const Dashboard = () => {
 
           <div>
             <div className="border p-2 rounded-full">
-              <NavLink to="/dashboard/profile"><FaUser></FaUser></NavLink>
+              <NavLink to="/dashboard/profile">
+                <FaUser></FaUser>
+              </NavLink>
             </div>
           </div>
         </nav>
@@ -108,18 +112,35 @@ const Dashboard = () => {
                 <span className="is-drawer-close:hidden">Profile</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/dashboard/riderApproval"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="My-Parcels"
-              >
-                {/* my parcel */}
-                <FaBiking />
+            {role.role === "Admin" && (
+              <>
+                {" "}
+                <li>
+                  <NavLink
+                    to="/dashboard/riderApproval"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My-Parcels"
+                  >
+                    {/* my parcel */}
+                    <FaBiking />
 
-                <span className="is-drawer-close:hidden">Riders</span>
-              </NavLink>
-            </li>
+                    <span className="is-drawer-close:hidden">Riders</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/users"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Payment-History"
+                  >
+                    {/* my parcel */}
+                    <FaUsers />
+
+                    <span className="is-drawer-close:hidden">User Mange</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
             <li>
               <NavLink
                 to="/dashboard/payment-history"
@@ -132,19 +153,6 @@ const Dashboard = () => {
                 <span className="is-drawer-close:hidden">Payment History</span>
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/dashboard/users"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Payment-History"
-              >
-                {/* my parcel */}
-                <FaUsers/>
-
-                <span className="is-drawer-close:hidden">Users</span>
-              </NavLink>
-            </li>
-           
           </ul>
         </div>
       </div>

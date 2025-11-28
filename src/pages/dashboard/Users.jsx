@@ -38,13 +38,25 @@ const Users = () => {
 
   const handleUserRole = (id) => {
     const userInfo = { role: "User" };
-    axiosSecure.patch(`/users/${id}`,userInfo).then((res) => {
-      if (res.data.modifiedCount) {
-        refetch();
-        Swal.fire({
-          title: "User Assigned Successfully!",
-          icon: "success",
-          draggable: true,
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Remove",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.patch(`/users/${id}`, userInfo).then((res) => {
+          if (res.data.modifiedCount) {
+            refetch();
+            Swal.fire({
+              title: "User Assigned Successfully!",
+              icon: "success",
+            });
+          }
         });
       }
     });
@@ -96,7 +108,10 @@ const Users = () => {
                 <td>{new Date(user.createdAt).toLocaleString()}</td>
                 <td>
                   {user.role === "Admin" ? (
-                    <button onClick={() => handleUserRole(user._id)} className="btn square-btn text-red-500">
+                    <button
+                      onClick={() => handleUserRole(user._id)}
+                      className="btn square-btn text-red-500"
+                    >
                       <RiAdminFill />
                     </button>
                   ) : (

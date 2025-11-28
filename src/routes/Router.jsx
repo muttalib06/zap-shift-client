@@ -16,6 +16,7 @@ import PaymentHistory from "../pages/dashboard/PaymentHistory";
 import RiderApproval from "../pages/dashboard/RiderApproval";
 import Profile from "../pages/dashboard/Profile";
 import Users from "../pages/dashboard/Users";
+import PrivateAdminRoute from "./PrivateAdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -52,9 +53,9 @@ export const router = createBrowserRouter([
         element: <Parcel></Parcel>,
       },
       {
-        path:"/rider",
-        element:Rider
-      }
+        path: "/rider",
+        element: Rider,
+      },
     ],
   },
 
@@ -82,8 +83,8 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        index:true,
-        element:<Profile></Profile>
+        index: true,
+        element: <Profile></Profile>,
       },
       {
         path: "/dashboard/my-parcels",
@@ -98,17 +99,25 @@ export const router = createBrowserRouter([
         element: <PaymentHistory></PaymentHistory>,
       },
       {
-        path:"riderApproval",
-        element:<RiderApproval></RiderApproval>
+        path: "riderApproval",
+        element: (
+          <PrivateAdminRoute>
+            <RiderApproval></RiderApproval>,
+          </PrivateAdminRoute>
+        ),
       },
       {
-        path:"profile",
-        element:<Profile></Profile>
+        path: "profile",
+        element: <Profile></Profile>,
       },
       {
-        path:"users",
-        element:<Users></Users>
-      }
+        path: "users",
+        element: (
+          <PrivateAdminRoute>
+            <Users></Users>
+          </PrivateAdminRoute>
+        ),
+      },
     ],
   },
 ]);
