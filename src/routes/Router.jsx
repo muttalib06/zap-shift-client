@@ -17,6 +17,7 @@ import RiderApproval from "../pages/dashboard/RiderApproval";
 import Profile from "../pages/dashboard/Profile";
 import Users from "../pages/dashboard/Users";
 import PrivateAdminRoute from "./PrivateAdminRoute";
+import AssignRider from "../pages/dashboard/AssignRider";
 
 export const router = createBrowserRouter([
   {
@@ -118,6 +119,13 @@ export const router = createBrowserRouter([
           </PrivateAdminRoute>
         ),
       },
+      {
+        path:"assign-rider",
+        element:<PrivateAdminRoute><AssignRider></AssignRider></PrivateAdminRoute>
+      },
+      {
+        path:"assigned-delivery"
+      }
     ],
   },
 ]);

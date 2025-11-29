@@ -89,7 +89,9 @@ const RiderApproval = () => {
               <th></th>
               <th>Name</th>
               <th>Email</th>
-              <th>Status</th>
+              <th>District</th>
+              <th>Application Status</th>
+              <th>Work Status</th>
               <th>Created At</th>
               <th>Actions</th>
             </tr>
@@ -101,6 +103,7 @@ const RiderApproval = () => {
                 <th>{index + 1}</th>
                 <td>{rider.name}</td>
                 <td>{rider.email}</td>
+                <td>{rider.district}</td>
                 <td
                   className={`${
                     rider.status === "Approved"
@@ -112,15 +115,18 @@ const RiderApproval = () => {
                 >
                   {rider.status}
                 </td>
+                <td>{rider.workStatus}</td>
                 <td>{new Date(rider.createdAt).toLocaleString()}</td>
                 <td className="space-x-2 space-y-2 lg:space-y-0">
                   <button
+                    disabled={rider.status === "Approved" && true}
                     onClick={() => handleApproved(rider)}
                     className="btn square-btn"
                   >
                     <FcApproval />
                   </button>
                   <button
+                    disabled={rider.status === "Rejected" && true}
                     onClick={() => handleRejected(rider)}
                     className="btn square-btn"
                   >

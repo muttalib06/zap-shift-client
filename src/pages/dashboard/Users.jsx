@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Spinner from "../../components/common/Spinner";
 import Error from "../../components/common/Error";
@@ -8,6 +8,7 @@ import { RiAdminFill } from "react-icons/ri";
 import Swal from "sweetalert2";
 
 const Users = () => {
+  const [searchText, setSearchText] = useState("");
   const axiosSecure = useAxiosSecure();
   const {
     data: users = [],
@@ -17,7 +18,7 @@ const Users = () => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const res = await axiosSecure.get(`/users?searchText=${searchText}`);
       return res.data;
     },
   });
@@ -72,6 +73,35 @@ const Users = () => {
   return (
     <div className="max-w-4/5 mx-auto mt-8">
       <h2 className="text-2xl font-bold">User:{users.length}</h2>
+
+
+      <label className="input my-3">
+        <svg
+          className="h-[1em] opacity-50"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            strokeWidth="2.5"
+            fill="none"
+            stroke="currentColor"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input
+          onChange={(e) => {
+            refetch()
+            setSearchText(e.target.value)
+          }}
+          type="search"
+          required
+          placeholder="Search"
+        />
+      </label>
 
       <div className="overflow-x-auto mt-5">
         <table className="table">

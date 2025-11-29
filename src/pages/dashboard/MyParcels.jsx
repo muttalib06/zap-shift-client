@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../components/common/Spinner";
@@ -99,6 +99,7 @@ const MyParcels = () => {
               <th>Cost</th>
               <th>Created Date</th>
               <th>Payment</th>
+              <th>Delivery Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -115,6 +116,7 @@ const MyParcels = () => {
                 </td>
                 <td>{parcel.cost}</td>
                 <td>{new Date(parcel.createdAt).toLocaleString()}</td>
+
                 <td>
                   {parcel.paymentStatus === "paid" ? (
                     <p className="text-green-400">Paid</p>
@@ -127,6 +129,7 @@ const MyParcels = () => {
                     </button>
                   )}
                 </td>
+                <td>{parcel.deliveryStatus}</td>
                 <td className="space-x-2">
                   <button className="btn btn-square hover:bg-primary">
                     <FiEdit></FiEdit>

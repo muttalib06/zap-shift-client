@@ -16,6 +16,7 @@ const Rider = () => {
   const {
     register,
     handleSubmit,
+    reset,
     control,
     formState: { errors },
   } = useForm();
@@ -23,10 +24,10 @@ const Rider = () => {
   const riderRegion = useWatch({ control, name: "region" });
 
   const onSubmit = (data) => {
-    console.log("after form submit", data);
 
     axiosSecure.post("/riders", data).then((res) => {
       if (res.data.insertedId) {
+        reset()
         Swal.fire({
           title: "Your request has been submitted successfully",
           icon: "success",
@@ -120,7 +121,7 @@ const Rider = () => {
                       type="email"
                       {...register("email", { required: "Email is required" })}
                       defaultValue={user.email}
-                      readOnly
+                       readOnlyd
                       className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-900 focus:bg-white transition"
                     />
                     {errors.email && (

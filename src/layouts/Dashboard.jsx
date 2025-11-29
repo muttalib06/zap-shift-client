@@ -2,12 +2,13 @@ import React from "react";
 import Logo from "../components/common/Logo";
 import { BiPackage } from "react-icons/bi";
 import { NavLink, Outlet } from "react-router";
-import { FaBiking, FaHistory, FaUser, FaUsers } from "react-icons/fa";
+import { FaBiking, FaHistory, FaTasks, FaUser, FaUsers } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { TbBikeFilled } from "react-icons/tb";
 import useRole from "../hooks/useRole";
 
 const Dashboard = () => {
-  const {role} = useRole();
+  const { role } = useRole();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -104,7 +105,7 @@ const Dashboard = () => {
               <NavLink
                 to="/dashboard/profile"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="My-Parcels"
+                data-tip="Profile"
               >
                 {/* my parcel */}
                 <CgProfile />
@@ -112,6 +113,26 @@ const Dashboard = () => {
                 <span className="is-drawer-close:hidden">Profile</span>
               </NavLink>
             </li>
+
+            {/* only rider links */}
+            {role.role === "Rider" && (
+              <>
+                <li>
+                  <NavLink
+                    to="/dashboard/assigned-delivery"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assigned Delivery"
+                  >
+                    {/* my parcel */}
+                    <FaTasks />
+
+                    <span className="is-drawer-close:hidden">Assigned Delivery</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {/* Only admin links */}
             {role.role === "Admin" && (
               <>
                 {" "}
@@ -119,7 +140,7 @@ const Dashboard = () => {
                   <NavLink
                     to="/dashboard/riderApproval"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My-Parcels"
+                    data-tip="Riders Approval"
                   >
                     {/* my parcel */}
                     <FaBiking />
@@ -131,12 +152,24 @@ const Dashboard = () => {
                   <NavLink
                     to="/dashboard/users"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Payment-History"
+                    data-tip="User Manage"
                   >
                     {/* my parcel */}
                     <FaUsers />
 
                     <span className="is-drawer-close:hidden">User Mange</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/assign-rider"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assign Rider"
+                  >
+                    {/* my parcel */}
+                    <TbBikeFilled />
+
+                    <span className="is-drawer-close:hidden">Assign Rider</span>
                   </NavLink>
                 </li>
               </>
