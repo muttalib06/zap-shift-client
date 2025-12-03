@@ -130,7 +130,7 @@ const SuccessPage = () => {
             >
               Back to Home
             </button>
-            <button className="bg-cyan-600 hover:bg-cyan-700 text-white font-medium px-8 py-3 rounded transition-colors">
+            <button onClick={() => navigate("/dashboard/my-parcels")} className="bg-cyan-600 hover:bg-cyan-700 text-white font-medium px-8 py-3 rounded transition-colors">
               CLOSE
             </button>
           </div>

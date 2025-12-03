@@ -121,7 +121,7 @@ const Rider = () => {
                       type="email"
                       {...register("email", { required: "Email is required" })}
                       defaultValue={user.email}
-                       readOnlyd
+                       readOnly
                       className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-50 border border-gray-300 rounded-lg focus:outline-none focus:border-teal-900 focus:bg-white transition"
                     />
                     {errors.email && (

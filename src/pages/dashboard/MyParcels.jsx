@@ -34,6 +34,7 @@ const MyParcels = () => {
         email: parcel.senderEmail,
         parcelId: parcel._id,
         name: parcel.parcelName,
+        trackingId: parcel.trackingId,
       };
       const res = await secureAxios.post(
         "/create-checkout-session",
@@ -85,7 +86,7 @@ const MyParcels = () => {
     return <Error></Error>;
   }
   return (
-    <div className="max-w-4/5 mx-auto mt-8">
+    <div className="max-w-11/12 mx-auto mt-8">
       <h1 className="font-bold text-xl">My parcels {parcels.length}</h1>
 
       <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 mt-5">
@@ -95,11 +96,13 @@ const MyParcels = () => {
             <tr>
               <th></th>
               <th>Parcel Name</th>
-              <th>Weight</th>
+              <th>Weight(kg)</th>
               <th>Cost</th>
+              <th>Sender District</th>
               <th>Created Date</th>
               <th>Payment</th>
               <th>Delivery Status</th>
+              <th>Tracking-Id</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -114,7 +117,8 @@ const MyParcels = () => {
                     ? "Document"
                     : parcel.parcelWeight}
                 </td>
-                <td>{parcel.cost}</td>
+                <td>${parcel.cost}</td>
+                <td>{parcel.senderDistrict}</td>
                 <td>{new Date(parcel.createdAt).toLocaleString()}</td>
 
                 <td>
@@ -130,6 +134,14 @@ const MyParcels = () => {
                   )}
                 </td>
                 <td>{parcel.deliveryStatus}</td>
+                <td>
+                  <NavLink
+                    to={`/tracking-page/${parcel.trackingId}`}
+                    className="underline text-blue-500"
+                  >
+                    {parcel.trackingId}
+                  </NavLink>
+                </td>
                 <td className="space-x-2">
                   <button className="btn btn-square hover:bg-primary">
                     <FiEdit></FiEdit>

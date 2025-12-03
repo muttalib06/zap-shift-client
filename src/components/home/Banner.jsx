@@ -8,6 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css/pagination";
 import "swiper/css";
+import { NavLink } from "react-router";
 
 const Banner = () => {
   return (
@@ -72,9 +73,9 @@ const Banner = () => {
                       </div>
                     </div>
 
-                    <button className="bg-white hover:bg-gray-50 text-gray-900 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-all duration-300">
+                    <NavLink to="/rider" className="bg-white hover:bg-gray-50 text-gray-900 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-all duration-300">
                       Be A Rider
-                    </button>
+                    </NavLink>
                   </div>
 
                   {/* Progress Dots */}
@@ -133,9 +134,9 @@ const Banner = () => {
                       </div>
                     </div>
 
-                    <button className="bg-white hover:bg-gray-50 text-gray-900 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-all duration-300">
+                    <NavLink to="/rider" className="bg-white hover:bg-gray-50 text-gray-900 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-all duration-300">
                       Be A Rider
-                    </button>
+                    </NavLink>
                   </div>
 
                   {/* Progress Dots */}
@@ -191,9 +192,9 @@ const Banner = () => {
                       </div>
                     </div>
 
-                    <button className="bg-white hover:bg-gray-50 text-gray-900 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-all duration-300">
+                    <NavLink to="/rider" className="bg-white hover:bg-gray-50 text-gray-900 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-all duration-300">
                       Be A Rider
-                    </button>
+                    </NavLink>
                   </div>
 
                   {/* Progress Dots */}

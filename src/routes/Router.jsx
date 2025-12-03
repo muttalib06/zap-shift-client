@@ -18,6 +18,10 @@ import Profile from "../pages/dashboard/Profile";
 import Users from "../pages/dashboard/Users";
 import PrivateAdminRoute from "./PrivateAdminRoute";
 import AssignRider from "../pages/dashboard/AssignRider";
+import PrivateRiderRoute from "./PrivateRiderRoute";
+import AssignedDelivery from "../pages/dashboard/AssignedDelivery";
+import CompletedDelivery from "../pages/dashboard/CompletedDelivery";
+import TrackingPage from "../pages/Tracking/TrackingPage";
 
 export const router = createBrowserRouter([
   {
@@ -54,8 +58,8 @@ export const router = createBrowserRouter([
         element: <Parcel></Parcel>,
       },
       {
-        path: "/rider",
-        element: Rider,
+        path: "tracking-page/:trackingId",
+        element: <TrackingPage></TrackingPage>,
       },
     ],
   },
@@ -120,12 +124,29 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path:"assign-rider",
-        element:<PrivateAdminRoute><AssignRider></AssignRider></PrivateAdminRoute>
+        path: "assign-rider",
+        element: (
+          <PrivateAdminRoute>
+            <AssignRider></AssignRider>
+          </PrivateAdminRoute>
+        ),
       },
       {
-        path:"assigned-delivery"
-      }
+        path: "assigned-delivery",
+        element: (
+          <PrivateRiderRoute>
+            <AssignedDelivery></AssignedDelivery>
+          </PrivateRiderRoute>
+        ),
+      },
+      {
+        path: "completed-delivery",
+        element: (
+          <PrivateRiderRoute>
+            <CompletedDelivery></CompletedDelivery>
+          </PrivateRiderRoute>
+        ),
+      },
     ],
   },
 ]);

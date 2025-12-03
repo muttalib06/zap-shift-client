@@ -118,20 +118,24 @@ const RiderApproval = () => {
                 <td>{rider.workStatus}</td>
                 <td>{new Date(rider.createdAt).toLocaleString()}</td>
                 <td className="space-x-2 space-y-2 lg:space-y-0">
-                  <button
-                    disabled={rider.status === "Approved" && true}
-                    onClick={() => handleApproved(rider)}
-                    className="btn square-btn"
-                  >
-                    <FcApproval />
-                  </button>
-                  <button
-                    disabled={rider.status === "Rejected" && true}
-                    onClick={() => handleRejected(rider)}
-                    className="btn square-btn"
-                  >
-                    <CiCircleRemove className="text-red-500" />
-                  </button>
+                  {rider.status === "Approved" ? (
+                    <button
+                      disabled={rider.status === "Rejected" && true}
+                      onClick={() => handleRejected(rider)}
+                      className="btn square-btn"
+                    >
+                      <CiCircleRemove className="text-red-500" />
+                    </button>
+                  ) : (
+                    <button
+                      disabled={rider.status === "Approved" && true}
+                      onClick={() => handleApproved(rider)}
+                      className="btn square-btn"
+                    >
+                      <FcApproval />
+                    </button>
+                  )}
+
                   <button
                     onClick={() => handleDelete(rider._id)}
                     className="btn square-btn"

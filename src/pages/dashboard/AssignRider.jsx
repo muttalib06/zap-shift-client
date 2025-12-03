@@ -12,12 +12,13 @@ const AssignRider = () => {
   const {
     data: parcels = [],
     isLoading,
+    refetch,
     error,
   } = useQuery({
-    queryKey: ["parcels", "pending-pickup"],
+    queryKey: ["parcels", "parcel paid"],
     queryFn: async () => {
       const res = await axiosSecure.get(
-        "/parcels?deliveryStatus=pending-pickup"
+        "/parcels?deliveryStatus=parcel paid"
       );
       return res.data;
     },
@@ -42,11 +43,13 @@ const AssignRider = () => {
       riderId: rider._id,
       riderEmail: rider.email,
       riderName: rider.name,
+      trackingId: selectedParcel.trackingId,
     };
     axiosSecure
       .patch(`/parcels/${selectedParcel._id}`, riderInfo)
       .then((res) => {
         if (res.data.modifiedCount) {
+          refetch();
           modalRef.current.close();
           Swal.fire({
             title: "Rider has been assigned",
@@ -64,6 +67,7 @@ const AssignRider = () => {
     modalRef.current.showModal();
   };
 
+  console.log(riders);
 
   if (isLoading) {
     return <Spinner></Spinner>;

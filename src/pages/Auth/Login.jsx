@@ -16,6 +16,8 @@ const Login = () => {
  const axiosSecure = useAxiosSecure()
   const from = location.state?.from?.pathname || "/";
 
+  console.log(from)
+
   const {
     register,
     handleSubmit,
@@ -62,7 +64,7 @@ const Login = () => {
 
         axiosSecure.post("/users", userInfo).then((res) => {
           console.log("save the user to the database", res.data);
-          navigate(from, { replace: true });
+          navigate(from,{replace: true});
         });
       })
       .catch((error) => {

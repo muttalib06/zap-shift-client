@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://zap-shift-server.onrender.com",
 });
 
 const useAxiosSecure = () => {
@@ -24,7 +24,6 @@ const useAxiosSecure = () => {
         return response;
       },
       (error) => {
-        console.log(error);
         const statusCode = error.status;
         if (statusCode === 403 || statusCode === 401) {
           logOut().then(() => {

@@ -59,7 +59,7 @@ const Profile = () => {
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 Created At
               </label>
-              <p className="text-sm text-gray-900">{user.metadata.creationTime}</p>
+              <p className="text-sm text-gray-900">{new Date(user.metadata.creationTime).toLocaleString()}</p>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">

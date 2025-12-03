@@ -3,6 +3,7 @@ import Logo from "../components/common/Logo";
 import { BiPackage } from "react-icons/bi";
 import { NavLink, Outlet } from "react-router";
 import { FaBiking, FaHistory, FaTasks, FaUser, FaUsers } from "react-icons/fa";
+import { GiConfirmed } from "react-icons/gi";
 import { CgProfile } from "react-icons/cg";
 import { TbBikeFilled } from "react-icons/tb";
 import useRole from "../hooks/useRole";
@@ -126,7 +127,23 @@ const Dashboard = () => {
                     {/* my parcel */}
                     <FaTasks />
 
-                    <span className="is-drawer-close:hidden">Assigned Delivery</span>
+                    <span className="is-drawer-close:hidden">
+                      Assigned Delivery
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/completed-delivery"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Completed Delivery"
+                  >
+                    {/* my parcel */}
+                    <GiConfirmed />
+
+                    <span className="is-drawer-close:hidden">
+                      Completed Delivery
+                    </span>
                   </NavLink>
                 </li>
               </>
