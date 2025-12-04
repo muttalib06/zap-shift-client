@@ -1,11 +1,69 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import useAuth from "../../hooks/useAuth";
-
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../../components/common/Spinner";
+import Error from "../../components/common/Error";
+import { FaCamera, FaEdit } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 const Profile = () => {
+  const { user, setUser, updateUserProfile } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
-        const {user} = useAuth();
-        console.log(user)
+  const modalRef = useRef(null);
+  console.log(user);
+  const {
+    data: userInfo,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["user", user.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/user?email=${user.email}`);
+      return res.data;
+    },
+  });
+
+  // update userinfo;
+
+  const handleUpdate = (data) => {
+    setLoading(true);
+    const name = data.name;
+    const image = data.imageUrl[0];
+    updateUserProfile(name, image)
+      .then(() => {
+        setUser({ ...user, displayName: name, photoURL: image });
+        modalRef.current.close();
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const { register, handleSubmit } = useForm();
+
+  const handleModal = () => {
+    modalRef.current.showModal();
+  };
+
+  if (isLoading) {
+    return <Spinner></Spinner>;
+  }
+
+  if (error) {
+    return <Error></Error>;
+  }
+  if (loading) {
+    return <Spinner></Spinner>;
+  }
+
+  console.log(userInfo);
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-full mx-auto lg:max-w-4/5 bg-white rounded-lg shadow-sm">
@@ -18,14 +76,13 @@ const Profile = () => {
                 alt="Profile"
                 className="w-16 h-16 rounded-full object-cover"
               />
-              <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
             </div>
             <div className="text-center sm:text-left">
               <h2 className="text-xl font-semibold text-gray-900">
-               {user.displayName}
+                {user.displayName}
               </h2>
-              <p className="text-sm text-gray-600">Admin</p>
-              <p className="text-sm text-gray-500">Leeds, United Kingdom</p>
+              <p className="text-sm text-gray-600">{userInfo.userRole}</p>
+              <p className="text-sm text-gray-500">{userInfo.country}</p>
             </div>
           </div>
         </div>
@@ -36,7 +93,10 @@ const Profile = () => {
             <h3 className="text-lg font-semibold text-gray-900">
               Personal Information
             </h3>
-            <button className="flex items-center gap-2 px-4 py-2 bg-primary  text-white rounded-md text-sm font-medium transition-colors w-full sm:w-auto justify-center sm:px-3 sm:py-1.5 sm:text-xs">
+            <button
+              onClick={() => handleModal()}
+              className="flex items-center gap-2 px-4 py-2 bg-primary  text-white rounded-md text-sm font-medium transition-colors w-full sm:w-auto justify-center sm:px-3 sm:py-1.5 sm:text-xs"
+            >
               Edit
               <MdEdit className="w-4 h-4 sm:w-3 sm:h-3" />
             </button>
@@ -51,15 +111,19 @@ const Profile = () => {
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">
-                Last Name
+                Last SignIn Time
               </label>
-              <p className="text-sm text-gray-900">{user.displayName}</p>
+              <p className="text-sm text-gray-900">
+                {new Date(user.metadata.lastSignInTime).toLocaleString()}
+              </p>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 Created At
               </label>
-              <p className="text-sm text-gray-900">{new Date(user.metadata.creationTime).toLocaleString()}</p>
+              <p className="text-sm text-gray-900">
+                {new Date(user.metadata.creationTime).toLocaleString()}
+              </p>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">
@@ -71,13 +135,13 @@ const Profile = () => {
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 Phone Number
               </label>
-              <p className="text-sm text-gray-900">(+62) 87-2554-5846</p>
+              <p className="text-sm text-gray-900">{userInfo.phone}</p>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 User Role
               </label>
-              <p className="text-sm text-gray-900">Admin</p>
+              <p className="text-sm text-gray-900">{userInfo.userRole}</p>
             </div>
           </div>
         </div>
@@ -97,22 +161,67 @@ const Profile = () => {
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 Country
               </label>
-              <p className="text-sm text-gray-900">United Kingdom</p>
+              <p className="text-sm text-gray-900">{userInfo.country}</p>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 City
               </label>
-              <p className="text-sm text-gray-900">Leeds, East London</p>
+              <p className="text-sm text-gray-900">{userInfo.city}</p>
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">
                 Postal Code
               </label>
-              <p className="text-sm text-gray-900">ERT 1254</p>
+              <p className="text-sm text-gray-900">{userInfo.postalCode}</p>
             </div>
           </div>
         </div>
+
+        {/* modal */}
+        {/* Open the modal using document.getElementById('ID').showModal() method */}
+        <dialog ref={modalRef} id="my_modal_1" className="modal">
+          <div className="modal-box">
+            <div className="flex justify-center items-center flex-col">
+              <div>
+                <img
+                  className="w-16 h-16 rounded-full object-cover"
+                  src={user.photoURL}
+                  alt=""
+                />
+                <p>{user.displayName}</p>
+              </div>
+              <form onSubmit={handleSubmit(handleUpdate)} className="space-y-2">
+                <label>Name</label>
+                <input
+                  defaultValue={user.displayName}
+                  type="text"
+                  {...register("name")}
+                  placeholder="Type here"
+                  className="input"
+                />{" "}
+                <br />
+                <label>Image</label>
+                <input
+                  {...register("imageUrl")}
+                  type="file"
+                  className="file-input"
+                />
+                <div>
+                  <button type="submit" className="btn bg-primary">
+                    Change
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="modal-action">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
     </div>
   );

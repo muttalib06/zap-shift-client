@@ -49,7 +49,7 @@ const Navbar = () => {
                 <NavLink>Home</NavLink>
               </li>
               <li>
-                <NavLink>Coverage</NavLink>
+                <NavLink>Coverage Area</NavLink>
               </li>
               <li>
                 <NavLink>About Us</NavLink>
@@ -81,19 +81,19 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <NavLink to="/">Home</NavLink>
+              <NavLink className={({isActive}) => isActive?"bg-primary text-black":""} to="/">Home</NavLink>
             </li>
             <li>
-              <NavLink to="/coverage">Coverage</NavLink>
+              <NavLink className={({isActive}) => isActive?"bg-primary text-black":""} to="/coverage">Coverage Area</NavLink>
             </li>
             <li>
-              <NavLink to="/about">About Us</NavLink>
+              <NavLink className={({isActive}) => isActive?"bg-primary text-black":""} to="/about">About Us</NavLink>
             </li>
             <li>
-              <NavLink to="/sendParcel">Send Parcel</NavLink>
+              <NavLink className={({isActive}) => isActive?"bg-primary text-black":""} to="/sendParcel">Send Parcel</NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard">Dashboard</NavLink>
+              <NavLink className={({isActive}) => isActive?"bg-primary text-black":""} to="/dashboard">Dashboard</NavLink>
             </li>
           </ul>
         </div>

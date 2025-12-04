@@ -4,7 +4,7 @@ import useAuth from "./useAuth";
 import { useNavigate } from "react-router";
 
 const axiosInstance = axios.create({
-  baseURL: "https://zap-shift-server.onrender.com",
+  baseURL: "http://localhost:3000",
 });
 
 const useAxiosSecure = () => {
