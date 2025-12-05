@@ -56,7 +56,9 @@ const Rider = () => {
     return districts;
   };
 
-  console.log(regions);
+  useEffect(() => {
+    window.scrollTo(0,0)
+  },[])
 
   return (
     <div className="min-h-screen bg-gray-100 p-3 sm:p-5 md:p-8 lg:p-10">
