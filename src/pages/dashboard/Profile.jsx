@@ -7,13 +7,15 @@ import Spinner from "../../components/common/Spinner";
 import Error from "../../components/common/Error";
 import { FaCamera, FaEdit } from "react-icons/fa";
 import { useForm } from "react-hook-form";
+import { Handler } from "leaflet";
+import axios from "axios";
 const Profile = () => {
   const { user, setUser, updateUserProfile } = useAuth();
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
 
   const modalRef = useRef(null);
-  console.log(user);
+
   const {
     data: userInfo,
     isLoading,
@@ -30,19 +32,30 @@ const Profile = () => {
 
   const handleUpdate = (data) => {
     setLoading(true);
-    const name = data.name;
-    const image = data.imageUrl[0];
-    updateUserProfile(name, image)
-      .then(() => {
-        setUser({ ...user, displayName: name, photoURL: image });
-        modalRef.current.close();
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    const file = data.imageUrl[0];
+
+    // send image to the imageBB;
+    const formData = new FormData();
+    formData.append("image", file);
+    const uploadImgURL = `https://api.imgbb.com/1/upload?key=${
+      import.meta.env.VITE_IMAGEBB_API_KEY
+    }`;
+
+    axios.post(uploadImgURL, formData).then((res) => {
+      const photoUrl = res.data.data.url;
+      const name = data.name;
+      updateUserProfile(name)
+        .then(() => {
+          setUser({ ...user, displayName: name, photoURL: photoUrl });
+          modalRef.current.close();
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    });
   };
 
   const { register, handleSubmit } = useForm();
@@ -61,8 +74,6 @@ const Profile = () => {
   if (loading) {
     return <Spinner></Spinner>;
   }
-
-  console.log(userInfo);
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
